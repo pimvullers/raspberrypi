@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>raspberrypi</name>
+    <description lang="en">overlay for Raspberry Pi specific ebuilds</description>
+    <homepage></homepage>
+    <owner type="person">
+      <email>raspberrypi@vullersmail.nl</email>
+      <name>Pim Vullers</name>
+    </owner>
+    <source type="git">git://github.com/pimvullers/raspberrypi.git</source>
+    <feed>https://github.com/pimvullers/raspberrypi/commits/master.atom</feed>
+  </repo>
+</repositories>
+
