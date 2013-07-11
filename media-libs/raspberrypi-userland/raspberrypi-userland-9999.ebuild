@@ -9,11 +9,15 @@ inherit flag-o-matic toolchain-funcs cmake-utils git-2
 DESCRIPTION="Raspberry Pi userspace tools and libraries"
 HOMEPAGE="https://github.com/raspberrypi/userland"
 EGIT_REPO_URI="git://github.com/raspberrypi/userland.git"
+EGIT_PROJECT="${P}"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~arm"
 IUSE="debug examples"
+
+DEPEND="
+	!media-libs/raspberrypi-videocore-bin"
 
 src_prepare() {
 	# init script for Debian, not useful on Gentoo
@@ -22,7 +26,7 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs="
-		-DCMAKE_TOOLCHAIN_FILE=${FILESDIR}/toolchain.cmake"
+		-DCMAKE_TOOLCHAIN_FILE=\"${FILESDIR}/toolchain.cmake\""
 
 	cmake-utils_src_configure
 }
@@ -31,7 +35,12 @@ src_install() {
 	cmake-utils_src_install
 
 	# Drop examples
-	use examples || rm -r ${ED}/opt/vc/src
+	use examples || rm -r "${ED}/opt/vc/src"
 
-	doenvd "${FILESDIR}"/04${PN}
+	# Add some pkgconfig files
+	insinto /usr/lib/pkgconfig
+	doins "${FILESDIR}/{bcm_host,egl,glesv2}.pc"
+
+	# Add environment file to include these libs in the correct PATHs
+	doenvd "${FILESDIR}/04${PN}"
 }
